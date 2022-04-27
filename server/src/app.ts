@@ -64,10 +64,10 @@ app.delete("/items/:id", async (req, res) => {
 
 app.post("/items", async (req, res) => {
   try {
-    const { categoryId, description, image, price, title } = req.body;
+    const { category_id, description, image, price, title } = req.body;
     const queryBuilder = new Query();
     const item: Item = {
-      category_id: categoryId,
+      category_id,
       description,
       image,
       price,

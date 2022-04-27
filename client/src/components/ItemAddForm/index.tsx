@@ -7,7 +7,6 @@ function ItemAddForm() {
   const [desc, setDesc] = useState<Item["description"]>("");
   const [price, setPrice] = useState<Item["price"]>("");
   const [image, setImage] = useState<Item["image"]>("");
-  const [categoryId, setCategoryId] = useState<Item["category_id"]>(0);
   const [categories, setCategories] = useState<Category[]>([]);
 
   const handleCategoryChange = () => {};
