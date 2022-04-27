@@ -1,24 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Todo from "./@types/todo";
+import AddForm from "./components/AddForm";
+import TodoList from "./components/TodoList";
 
+const url = "https://jsonplaceholder.typicode.com/todos";
 function App() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    fetch(url)
+      .then((res) => res.json())
+      .then((data: Todo[]) => {
+        setTodos(data);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }, []);
+
+  const handleSubmit = (v: { name: string }) => {
+    console.log(v);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Todo-list</h1>
+      <AddForm onSubmit={handleSubmit} />
+      <TodoList todos={todos} />;
     </div>
   );
 }
