@@ -3,11 +3,26 @@ import Item from "./@types/item";
 import config from "./config";
 import pool from "./db/pool";
 import Query from "./utils/queryBuilder";
+import cors from "cors";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.listen(config.port, () => [console.log(`${config.port} listening`)]);
+
+app.get("/categories/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const queryBuilder = new Query();
+    const query = queryBuilder.SELECT("category").WHERE("id", Number(id)).end();
+    const [data] = await pool.query(query);
+    res.json(data[0]);
+  } catch (e) {
+    res.status(400).json({ message: "invalid category" });
+  }
+});
 
 app.get("/items", async (req, res) => {
   const { count } = req.query;
