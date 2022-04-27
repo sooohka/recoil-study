@@ -11,14 +11,22 @@ app.use(cors());
 
 app.listen(config.port, () => [console.log(`${config.port} listening`)]);
 
+app.get("/categories", async (req, res) => {
+  try {
+    const query = `SELECT category from category`;
+    const [data] = (await pool.query(query)) as any;
+    res.json(data.map((data) => data.category));
+  } catch (e) {
+    res.status(400).json({ message: "error" });
+  }
+});
+
 app.get("/categories/:id", async (req, res) => {
   try {
     const { id } = req.params;
-
-    const queryBuilder = new Query();
-    const query = queryBuilder.SELECT("category").WHERE("id", Number(id)).end();
+    const query = `SELECT category from category WHERE id=${id}`;
     const [data] = await pool.query(query);
-    res.json(data[0]);
+    res.json(data[0].category);
   } catch (e) {
     res.status(400).json({ message: "invalid category" });
   }

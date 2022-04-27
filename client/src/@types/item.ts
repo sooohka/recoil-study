@@ -5,7 +5,7 @@ type Item = {
   title: string;
   price: string;
   description: string;
-  category_id: Category["id"];
+  category: Category;
   image: string;
 };
 

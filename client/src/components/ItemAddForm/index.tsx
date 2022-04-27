@@ -22,9 +22,9 @@ function ItemAddForm() {
       {categories.map((category) => (
         <input
           onChange={handleCategoryChange}
-          key={category.id}
+          key={category}
           name="category"
-          value={category.name}
+          value={category}
           type="radio"
         />
       ))}

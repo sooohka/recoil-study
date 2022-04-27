@@ -1,6 +1,25 @@
-import { atom, selector } from "recoil";
+import { selector, selectorFamily } from "recoil";
+import Item from "../../@types/item";
+import getItems from "../api/getItems";
+import { categoryState } from "./category";
 
-const itemListState = selector({
+export const itemListState = selectorFamily({
   key: "itemListState",
-  get: ({ get }) => {},
+  get: (count: number) => async () => {
+    const data = (await getItems(count)) as Item[];
+    return data;
+  },
+});
+
+export const filteredItemsList = selector({
+  key: "filteredItemList",
+  get: ({ get }) => {
+    const itemList = get(itemListState(100));
+    const filter = get(categoryState);
+    if (filter === "All") {
+      return itemList;
+    }
+
+    return itemList.filter((item) => item.category === filter);
+  },
 });

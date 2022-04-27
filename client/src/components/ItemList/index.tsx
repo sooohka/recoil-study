@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
-import Item from "../../@types/item";
+import React from "react";
+import { useRecoilValueLoadable } from "recoil";
 import ItemFilter from "../Itemfilter";
 import ItemListItem from "../ItemListItem";
+import { filteredItemsList } from "../store/item";
 
 function ItemList() {
-  const [itemListItems, setItemListItems] = useState<Item[]>([]);
-  useEffect(() => {
-    fetch("http://localhost:8080/items")
-      .then((res) => res.json())
-      .then((res: Item[]) => setItemListItems(res))
-      .catch(() => {});
-  }, []);
+  const loadable = useRecoilValueLoadable(filteredItemsList);
+
+  if (loadable.state !== "hasValue") return null;
   return (
     <ul>
       <h2>Item List</h2>
       <ItemFilter />
-      {itemListItems.map((item) => (
+      {loadable.contents.map((item) => (
         <ItemListItem key={item.id} item={item} />
       ))}
     </ul>

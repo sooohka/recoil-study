@@ -1,3 +1,4 @@
+import Item from "../../@types/item";
 import url from "./url";
 
 const getItems = (count?: number) =>
