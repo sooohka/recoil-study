@@ -14,7 +14,7 @@ export const itemListState = selectorFamily({
 export const filteredItemsList = selector({
   key: "filteredItemList",
   get: ({ get }) => {
-    const itemList = get(itemListState(100));
+    const itemList = get(itemListState(20));
     const filter = get(categoryState);
     if (filter === "All") {
       return itemList;
